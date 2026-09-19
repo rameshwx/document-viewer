@@ -1,0 +1,55 @@
+name: aeroslate
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.14
+
+environment:
+  sdk: '>=3.4.0 <4.0.0'
+  flutter: ">=3.22.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.6
+  flutter_riverpod: ^2.4.0
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  shared_preferences: ^2.2.2
+  flutter_svg: ^2.0.10+1
+  uuid: ^4.0.0
+  share_plus: ^7.2.1
+  pdfrx: ^2.1.5
+  web: ^1.1.1
+
+  # Localization
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^3.0.0
+  hive_generator: ^2.0.1
+  build_runner: ^2.4.6
+
+flutter:
+  uses-material-design: true
+  generate: true
+  assets:
+    - assets/AC_A320_0624.pdf
+    - assets/AS-AWM-01-000_I1_R4_20200612.pdf
+    - assets/ar_logo_light.png
+    - assets/ar_mini_logo_light.png
+    - assets/dark_icons/ar_logo_dark.png
+    - assets/dark_icons/ar_mini_logo_dark.png
+    - assets/tab_toolbar/tab-toolbar-graphics-draw.svg
+    - assets/tab_toolbar/tab-toolbar-graphics-print.svg
+    - assets/tab_toolbar/tab-toolbar-graphics-reset.svg
+    - assets/tab_toolbar/tab-toolbar-graphics-toolbar-zoom-out.svg
+    - assets/tab_toolbar/tab-toolbar-graphics-zoom-in.svg
+    - assets/tab_toolbar/tab-toolbar-pdf-download.svg
+    - assets/tab_toolbar/tab-toolbar-share-url.svg

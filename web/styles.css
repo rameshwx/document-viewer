@@ -1,0 +1,257 @@
+/* styles.css — compat layer for static Bicycle pages
+   Applies to your existing HTML without needing .nmx-light-theme / .mat-* classes */
+
+/* Base layout & typography */
+html, body {
+  margin: 0;
+  padding: 0;
+  font: 14px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: #222;
+  background: #fff;
+}
+.nmx-container {
+  max-width: 980px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+/* Header */
+header .title { margin: 0 0 4px 0; font-size: 32px; font-weight: 700; }
+header .subtitle { margin: 0 0 8px 0; color: #555; }
+header .date { margin: 0 0 16px 0; font-size: 13px; color: #888; }
+
+/* TOC + lists */
+#tbltoc.toc { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0 24px; }
+#tbltoc .tocTitle { margin: 0 0 8px; font-weight: 700; text-transform: uppercase; font-size: 12px; letter-spacing: .04em; color: #666; }
+#tbltoc .tocItem { margin: 4px 0; }
+#tbltoc .tocItem a { text-decoration: none; color: #0b57d0; }
+#tbltoc .tocItem a:hover { text-decoration: underline; }
+#tbltoc .tocBuletNumber { display: inline-block; min-width: 1.5em; color: #666; }
+#tbltoc .tocBuletContent { color: #222; }
+
+/* “References” section */
+.references { margin: 24px 0; }
+.references h1 { font-size: 22px; margin: 0 0 12px; }
+.nmx-table-icon { display: inline-block; vertical-align: middle; margin-right: 8px; }
+.nmx-refs-table { width: 100%; border-collapse: collapse; margin: 8px 0 16px; table-layout: fixed; }
+.nmx-refs-table caption { text-align: left; margin: 0 0 8px; font-weight: 700; color: #444; }
+.nmx-refs-table thead th {
+  text-align: left; font-weight: 600; font-size: 13px; color: #555;
+  border-bottom: 2px solid #e6e6e6; padding: 8px 10px;
+}
+.nmx-refs-table tbody td { border-bottom: 1px solid #eee; padding: 8px 10px; vertical-align: top; }
+.nmx-refs-table a.dmRef { color: #0b57d0; text-decoration: none; word-break: break-word; }
+.nmx-refs-table a.dmRef:hover { text-decoration: underline; }
+
+/* Description */
+.nmx-description .title h1 { font-size: 22px; margin: 24px 0 8px; }
+.nmx-levelledPara { position: relative; padding-left: 40px; margin: 16px 0; }
+.nmx-levelledPara .stepNumber {
+  position: absolute; left: 0; top: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: #0b57d0; color: #fff; font-weight: 700; font-size: 14px;
+}
+.nmx-levelledPara .stepContent .title { font-weight: 700; margin: 0 0 6px; }
+
+/* Paragraphs and links */
+.nmx-para { margin: 8px 0; }
+a { color: #0b57d0; }
+a:hover { text-decoration: underline; }
+
+/* Inline tables inside description */
+.nmx-description table { width: 100%; border-collapse: collapse; margin: 10px 0; table-layout: fixed; }
+.nmx-description th, .nmx-description td { border: 1px solid #eaeaea; padding: 8px 10px; vertical-align: top; }
+.nmx-description th { width: 18%; background: #fafafa; text-align: left; font-weight: 600; }
+
+/* Small tweaks */
+svg { vertical-align: middle; }
+ul { margin: 8px 0 8px 20px; }
+
+/* ===================================================================== */
+/* Bicycle Manual page styles (scoped to your provided HTML structure)   */
+/* ===================================================================== */
+
+:root {
+  --brand: #0b57d0;
+  --ink: #222;
+  --muted: #6b7280;      /* slate-500-ish */
+  --border: #e6e6e6;
+  --paper: #ffffff;
+  --paper-alt: #fafafa;
+}
+
+/* Page frame */
+.container {
+  max-width: 980px;
+  margin: 32px auto 48px;
+  padding: 0 20px;
+}
+
+/* Header with subtle gradient band */
+.container .header {
+  background: linear-gradient(180deg, rgba(11,87,208,0.08), rgba(11,87,208,0.03));
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Title + shadowed subtitle effect */
+.container .header .title h1 {
+  margin: 0;
+  font-size: clamp(28px, 3.4vw, 40px);
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  color: var(--ink);
+}
+
+.container .header .sub-title h1 {
+  margin: 0;
+  font-size: clamp(28px, 3.4vw, 40px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -.02em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(11,87,208,0.25);
+  opacity: .35;
+  transform: translate(6px, 10px) skewX(-8deg);
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Content body */
+.container .content-body {
+  padding: 20px 4px 8px;
+}
+
+/* Issue info line */
+.container .issue-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  align-items: baseline;
+  margin: 6px 0 16px;
+}
+.container .issue-info h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+/* Legal / copyright block */
+.container .copy-right {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+
+.container .copy-right p:first-child {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  color: #374151; /* slate-700 */
+}
+
+.container .copy-right p {
+  margin: 0 0 12px;
+  color: #333;
+}
+
+.container .copy-right h4,
+.container .copy-right .pub-no h4 {
+  margin: 12px 0 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+}
+
+.container .copy-right p + p {
+  padding-left: 12px;
+  border-left: 3px solid rgba(11,87,208,0.15);
+}
+
+/* Footer */
+.container .footer {
+  margin-top: 28px;
+}
+
+.container .footer hr {
+  border: 0;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(0,0,0,.08), rgba(0,0,0,.02));
+  margin: 8px 0 16px;
+}
+
+.container .footer-info {
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) minmax(240px, 1fr);
+  gap: 16px 24px;
+  align-items: start;
+}
+
+.container .left-footer {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.container .left-footer p {
+  margin: 0;
+  font-weight: 700;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.container .logo-img {
+  display: block;
+  height: 64px;
+  width: auto;
+  object-fit: contain;
+  filter: saturate(0.95) contrast(1.05);
+}
+
+.container .right-footer p {
+  margin: 0;
+  color: #374151;
+}
+.container .right-footer p:first-child {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+/* Card hover (nice on desktop, harmless on mobile) */
+@media (hover: hover) {
+  .container .copy-right {
+    transition: box-shadow .2s ease, transform .2s ease;
+  }
+  .container .copy-right:hover {
+    box-shadow: 0 6px 18px rgba(0,0,0,.06);
+    transform: translateY(-1px);
+  }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .container { padding: 0 14px; }
+  .container .footer-info { grid-template-columns: 1fr; }
+  .container .left-footer { align-items: flex-start; }
+  .container .logo-img { height: 54px; }
+}
+
+/* Print-friendly tweaks */
+@media print {
+  :root { --border: #cfcfcf; }
+  .container .header {
+    background: none;
+    border-color: var(--border);
+  }
+  .container .header .sub-title h1 { display: none; }
+  .container .copy-right { border-color: var(--border); box-shadow: none; }
+  .container .footer hr { background: #bbb; }
+}

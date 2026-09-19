@@ -1,0 +1,9 @@
+.git
+.dart_tool
+.flutter-plugins
+.flutter-plugins-dependencies
+.DS_Store
+build
+.idea
+.vscode
+*.log

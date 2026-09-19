@@ -1,0 +1,112 @@
+name: Validate and deploy AeroSlate
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    name: Validate Flutter app and Docker image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.32.2
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get --enforce-lockfile
+
+      - name: Analyze Dart code
+        run: flutter analyze
+
+      - name: Run Flutter tests
+        run: flutter test
+
+      - name: Build release web bundle
+        run: flutter build web --release --base-href=/ --no-source-maps
+
+      - name: Build production image
+        run: docker build --pull --tag aeroslate-web:test .
+
+      - name: Smoke-test production image
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          container_id="$(docker run --detach --publish 127.0.0.1:18080:80 aeroslate-web:test)"
+
+          cleanup() {
+            docker rm --force "$container_id" >/dev/null 2>&1 || true
+          }
+          trap cleanup EXIT
+
+          for attempt in {1..30}; do
+            if curl --fail --silent --show-error --max-time 5 \
+              http://127.0.0.1:18080/ >/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+
+          for route in \
+            / \
+            /manifest.json \
+            /styles.css \
+            /pdfrx/pdfium.wasm \
+            /pdfrx/pdfium_worker.js \
+            /assets/AC_A320_0624.pdf \
+            /assets/AS-AWM-01-000_I1_R4_20200612.pdf; do
+            curl --fail --silent --show-error --max-time 20 \
+              "http://127.0.0.1:18080${route}" >/dev/null
+          done
+
+          for attempt in {1..30}; do
+            health_status="$(docker inspect --format '{{.State.Health.Status}}' "$container_id")"
+            if [ "$health_status" = healthy ]; then
+              break
+            fi
+            if [ "$health_status" = unhealthy ]; then
+              docker logs "$container_id"
+              exit 1
+            fi
+            sleep 1
+          done
+
+          test "$(docker inspect --format '{{.State.Health.Status}}' "$container_id")" = healthy
+
+  deploy:
+    name: Trigger Coolify production deployment
+    needs: validate
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Trigger authenticated Coolify deployment
+        env:
+          COOLIFY_WEBHOOK: ${{ secrets.COOLIFY_WEBHOOK }}
+          COOLIFY_TOKEN: ${{ secrets.COOLIFY_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$COOLIFY_WEBHOOK"
+          test -n "$COOLIFY_TOKEN"
+          curl --fail --silent --show-error --max-time 30 \
+            --request POST "$COOLIFY_WEBHOOK" \
+            --header "Authorization: Bearer $COOLIFY_TOKEN"

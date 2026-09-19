@@ -1,0 +1,35 @@
+{
+    "name": "AeroSlate",
+    "short_name": "AeroSlate",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#111315",
+    "theme_color": "#111315",
+    "description": "AeroSlate web technical publication viewer.",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "assets/ar_mini_logo_light.png",
+            "sizes": "1254x1254",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/ar_mini_logo_light.png",
+            "sizes": "1254x1254",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/ar_mini_logo_light.png",
+            "sizes": "1254x1254",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "assets/ar_mini_logo_light.png",
+            "sizes": "1254x1254",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}

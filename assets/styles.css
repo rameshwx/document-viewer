@@ -1,0 +1,69 @@
+/* styles.css — compat layer for static Bicycle pages
+   Applies to your existing HTML without needing .nmx-light-theme / .mat-* classes */
+
+/* Base layout & typography */
+html, body {
+  margin: 0;
+  padding: 0;
+  font: 14px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: #222;
+  background: #fff;
+}
+.nmx-container {
+  max-width: 980px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+/* Header */
+header .title { margin: 0 0 4px 0; font-size: 32px; font-weight: 700; }
+header .subtitle { margin: 0 0 8px 0; color: #555; }
+header .date { margin: 0 0 16px 0; font-size: 13px; color: #888; }
+
+/* TOC + lists */
+#tbltoc.toc { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0 24px; }
+#tbltoc .tocTitle { margin: 0 0 8px; font-weight: 700; text-transform: uppercase; font-size: 12px; letter-spacing: .04em; color: #666; }
+#tbltoc .tocItem { margin: 4px 0; }
+#tbltoc .tocItem a { text-decoration: none; color: #0b57d0; }
+#tbltoc .tocItem a:hover { text-decoration: underline; }
+#tbltoc .tocBuletNumber { display: inline-block; min-width: 1.5em; color: #666; }
+#tbltoc .tocBuletContent { color: #222; }
+
+/* “References” section */
+.references { margin: 24px 0; }
+.references h1 { font-size: 22px; margin: 0 0 12px; }
+.nmx-table-icon { display: inline-block; vertical-align: middle; margin-right: 8px; }
+.nmx-refs-table { width: 100%; border-collapse: collapse; margin: 8px 0 16px; table-layout: fixed; }
+.nmx-refs-table caption { text-align: left; margin: 0 0 8px; font-weight: 700; color: #444; }
+.nmx-refs-table thead th {
+  text-align: left; font-weight: 600; font-size: 13px; color: #555;
+  border-bottom: 2px solid #e6e6e6; padding: 8px 10px;
+}
+.nmx-refs-table tbody td { border-bottom: 1px solid #eee; padding: 8px 10px; vertical-align: top; }
+.nmx-refs-table a.dmRef { color: #0b57d0; text-decoration: none; word-break: break-word; }
+.nmx-refs-table a.dmRef:hover { text-decoration: underline; }
+
+/* Description */
+.nmx-description .title h1 { font-size: 22px; margin: 24px 0 8px; }
+.nmx-levelledPara { position: relative; padding-left: 40px; margin: 16px 0; }
+.nmx-levelledPara .stepNumber {
+  position: absolute; left: 0; top: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: #0b57d0; color: #fff; font-weight: 700; font-size: 14px;
+}
+.nmx-levelledPara .stepContent .title { font-weight: 700; margin: 0 0 6px; }
+
+/* Paragraphs and links */
+.nmx-para { margin: 8px 0; }
+a { color: #0b57d0; }
+a:hover { text-decoration: underline; }
+
+/* Inline tables inside description */
+.nmx-description table { width: 100%; border-collapse: collapse; margin: 10px 0; table-layout: fixed; }
+.nmx-description th, .nmx-description td { border: 1px solid #eaeaea; padding: 8px 10px; vertical-align: top; }
+.nmx-description th { width: 18%; background: #fafafa; text-align: left; font-weight: 600; }
+
+/* Small tweaks */
+svg { vertical-align: middle; }
+ul { margin: 8px 0 8px 20px; }
