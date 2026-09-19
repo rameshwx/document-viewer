@@ -56,13 +56,16 @@ jobs:
           }
           trap cleanup EXIT
 
+          ready=0
           for attempt in {1..30}; do
             if curl --fail --silent --show-error --max-time 5 \
               http://127.0.0.1:18080/ >/dev/null; then
+              ready=1
               break
             fi
             sleep 1
           done
+          test "$ready" = 1
 
           for route in \
             / \
@@ -72,6 +75,7 @@ jobs:
             /pdfrx/pdfium_worker.js \
             /assets/AC_A320_0624.pdf \
             /assets/AS-AWM-01-000_I1_R4_20200612.pdf; do
+            printf 'Checking route %s\n' "$route"
             curl --fail --silent --show-error --max-time 20 \
               "http://127.0.0.1:18080${route}" >/dev/null
           done
