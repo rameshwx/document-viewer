@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../providers/drawing_provider.dart';
 import '../../l10n/app_localizations.dart';
 
@@ -55,6 +56,21 @@ class _DrawingOverlayState extends State<DrawingOverlay> {
       _textPosition = null;
       _textController.clear();
     });
+  }
+
+  void _insertSpaceInTextAnnotation() {
+    final value = _textController.value;
+    final selection = value.selection.isValid
+        ? value.selection
+        : TextSelection.collapsed(offset: value.text.length);
+    final text = value.text.replaceRange(selection.start, selection.end, ' ');
+    final offset = selection.start + 1;
+
+    _textController.value = value.copyWith(
+      text: text,
+      selection: TextSelection.collapsed(offset: offset),
+      composing: TextRange.empty,
+    );
   }
 
   @override
@@ -228,27 +244,40 @@ class _DrawingOverlayState extends State<DrawingOverlay> {
 
   Widget _buildTextInput() {
     final loc = AppLocalizations.of(context)!;
+    final scheme = Theme.of(context).colorScheme;
     return Container(
       width: 200,
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.9),
-        border: Border.all(color: Colors.grey),
+        color: scheme.surface.withValues(alpha: 0.95),
+        border: Border.all(color: scheme.outline),
         borderRadius: BorderRadius.circular(4),
-        boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 4)],
+        boxShadow: [
+          BoxShadow(color: scheme.shadow.withValues(alpha: 0.25), blurRadius: 4),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisSize: MainAxisSize.min,
         children: [
-          TextField(
-            controller: _textController,
-            decoration: InputDecoration(
-                isDense: true,
-                border: InputBorder.none,
-                hintText: loc.nmx_enterAnnotation),
-            autofocus: true,
-            onSubmitted: _addTextAnnotation,
+          Focus(
+            onKeyEvent: (_, event) {
+              if (event is KeyDownEvent &&
+                  event.logicalKey == LogicalKeyboardKey.space) {
+                _insertSpaceInTextAnnotation();
+                return KeyEventResult.handled;
+              }
+              return KeyEventResult.ignored;
+            },
+            child: TextField(
+              controller: _textController,
+              decoration: InputDecoration(
+                  isDense: true,
+                  border: InputBorder.none,
+                  hintText: loc.nmx_enterAnnotation),
+              autofocus: true,
+              onSubmitted: _addTextAnnotation,
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,

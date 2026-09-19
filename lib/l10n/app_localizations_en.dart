@@ -53,6 +53,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get nmx_svg_tooltip_square => 'Square';
 
   @override
+  String get nmx_svg_tooltip_color => 'Line color';
+
+  @override
   String get nmx_svg_color_black => 'Black';
 
   @override

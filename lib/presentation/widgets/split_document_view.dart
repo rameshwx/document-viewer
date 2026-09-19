@@ -57,6 +57,7 @@ class _SplitDocumentViewState extends ConsumerState<SplitDocumentView> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final isSmallScreen = screenWidth < 800;
+    final scheme = Theme.of(context).colorScheme;
     final drawingState = ref.watch(drawingProviderFamily(_activePaneId));
     final drawingNotifier =
         ref.read(drawingProviderFamily(_activePaneId).notifier);
@@ -69,7 +70,7 @@ class _SplitDocumentViewState extends ConsumerState<SplitDocumentView> {
 
     final toolbar = _toolbarOpen
         ? Container(
-            color: Colors.grey.shade100,
+            color: scheme.surfaceContainer,
             height: isSmallScreen ? 48 : 52,
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: SingleChildScrollView(
@@ -146,18 +147,15 @@ class _SplitDocumentViewState extends ConsumerState<SplitDocumentView> {
                   child: Container(
                     width: 8,
                     color: _isHovering
-                        ? Theme.of(context)
-                            .colorScheme
-                            .primary
-                            .withValues(alpha: 0.3)
-                        : Colors.grey.shade300,
+                        ? scheme.primary.withValues(alpha: 0.3)
+                        : scheme.outlineVariant,
                     child: Center(
                       child: Container(
                         width: 3,
                         height: 50,
                         color: _isHovering
-                            ? Theme.of(context).colorScheme.primary
-                            : Colors.grey.shade500,
+                            ? scheme.primary
+                            : scheme.outline,
                       ),
                     ),
                   ),
@@ -186,6 +184,7 @@ class _SplitDocumentViewState extends ConsumerState<SplitDocumentView> {
     required String pane,
     required DocumentViewController controller,
   }) {
+    final scheme = Theme.of(context).colorScheme;
     return Listener(
       onPointerDown: (_) => setState(() => _activePane = pane),
       child: Stack(
@@ -230,7 +229,12 @@ class _SplitDocumentViewState extends ConsumerState<SplitDocumentView> {
                         .read(tabsProvider.notifier)
                         .closeDocumentInSplitView(
                             widget.tabId, pane == 'L' ? 0 : 1),
-                    icon: const Icon(Icons.close),
+                    icon: Icon(
+                      Icons.close,
+                      color: _activePane == pane
+                          ? scheme.onPrimary
+                          : scheme.onSurfaceVariant,
+                    ),
                   ),
                 ],
               ),

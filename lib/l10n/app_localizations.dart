@@ -182,6 +182,12 @@ abstract class AppLocalizations {
   /// **'Square'**
   String get nmx_svg_tooltip_square;
 
+  /// Tooltip for the drawing line color picker
+  ///
+  /// In en, this message translates to:
+  /// **'Line color'**
+  String get nmx_svg_tooltip_color;
+
   /// Color option: black
   ///
   /// In en, this message translates to:

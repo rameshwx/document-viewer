@@ -24,10 +24,11 @@ class DocumentTabs extends ConsumerWidget {
     final double tabHeight = isSmallScreen ? 40 : 44;
     final double fontSize = isSmallScreen ? 11 : 12;
     final double iconSize = isSmallScreen ? 10 : 12;
+    final scheme = theme.colorScheme;
 
     return Container(
       height: tabHeight,
-      color: Colors.grey[700],
+      color: scheme.surfaceContainer,
       child: ListView.builder(
         controller: scrollController,
         scrollDirection: Axis.horizontal,
@@ -51,14 +52,14 @@ class DocumentTabs extends ConsumerWidget {
                 vertical: 4.0,
               ),
               decoration: BoxDecoration(
-                color: isSelected ? theme.primaryColor : Colors.grey[700],
+                color: isSelected ? scheme.primary : scheme.surfaceContainer,
                 borderRadius: BorderRadius.circular(4.0),
                 border: Border(
                   bottom: BorderSide(
                     width: 2,
                     color: isSelected
                         ? theme.colorScheme.secondary
-                        : Colors.transparent,
+                        : scheme.outlineVariant,
                   ),
                 ),
               ),
@@ -70,7 +71,9 @@ class DocumentTabs extends ConsumerWidget {
                       displayTitle,
                       style: TextStyle(
                         fontSize: fontSize,
-                        color: isSelected ? Colors.white : Colors.black87,
+                        color: isSelected
+                            ? scheme.onPrimary
+                            : scheme.onSurfaceVariant,
                       ),
                     ),
                   ] else ...[
@@ -83,7 +86,9 @@ class DocumentTabs extends ConsumerWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: fontSize,
-                          color: isSelected ? Colors.white : Colors.black87,
+                          color: isSelected
+                              ? scheme.onPrimary
+                              : scheme.onSurfaceVariant,
                         ),
                       ),
                     ),
@@ -93,7 +98,9 @@ class DocumentTabs extends ConsumerWidget {
                       margin: EdgeInsets.symmetric(
                         horizontal: isSmallScreen ? 4.0 : 6.0,
                       ),
-                      color: isSelected ? Colors.white54 : Colors.black26,
+                      color: isSelected
+                          ? scheme.onPrimary.withValues(alpha: 0.54)
+                          : scheme.outlineVariant,
                     ),
                     SizedBox(
                       width: 80,
@@ -104,7 +111,9 @@ class DocumentTabs extends ConsumerWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: fontSize,
-                          color: isSelected ? Colors.white : Colors.black87,
+                          color: isSelected
+                              ? scheme.onPrimary
+                              : scheme.onSurfaceVariant,
                         ),
                       ),
                     ),
@@ -116,7 +125,9 @@ class DocumentTabs extends ConsumerWidget {
                     child: Icon(
                       Icons.close,
                       size: iconSize,
-                      color: isSelected ? Colors.white : Colors.black54,
+                      color: isSelected
+                          ? scheme.onPrimary
+                          : scheme.onSurfaceVariant,
                     ),
                   ),
                 ],

@@ -51,6 +51,8 @@ class DocumentMainToolbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
+    final scheme = Theme.of(context).colorScheme;
+    final iconColor = scheme.onSurface;
 
     Widget button({
       required Widget child,
@@ -72,7 +74,7 @@ class DocumentMainToolbar extends StatelessWidget {
               height: 36,
               margin: const EdgeInsets.symmetric(horizontal: 3),
               decoration: BoxDecoration(
-                color: color ?? Colors.grey.shade300,
+                color: color ?? scheme.surfaceContainerHighest,
                 borderRadius: BorderRadius.circular(6),
               ),
               child: Center(child: child),
@@ -103,31 +105,33 @@ class DocumentMainToolbar extends StatelessWidget {
               'assets/tab_toolbar/tab-toolbar-graphics-draw.svg',
               width: 20,
               height: 20,
+              colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
             ),
             tooltip: drawingEnabled
                 ? loc.nmx_svg_tooltip_disableDrawing
                 : loc.nmx_svg_tooltip_enableDrawing,
             onPressed: onToggleDrawing,
-            color: drawingEnabled ? Colors.yellow.shade100 : null,
+            color: drawingEnabled ? scheme.secondaryContainer : null,
           ),
         button(
           child: const Icon(Icons.layers_outlined, size: 20),
           tooltip: 'Drawing layer',
           onPressed: onToggleSD,
-          color: sdEnabled ? Colors.grey.shade100 : null,
+          color: sdEnabled ? scheme.secondaryContainer : null,
         ),
         if (showPdfToolsButton)
           button(
             child: const Icon(Icons.picture_as_pdf, size: 20),
             tooltip: loc.nmx_pdfTools,
             onPressed: onTogglePdfTools,
-            color: pdfToolsEnabled ? Colors.grey.shade200 : null,
+            color: pdfToolsEnabled ? scheme.secondaryContainer : null,
           ),
         button(
           child: SvgPicture.asset(
             'assets/tab_toolbar/tab-toolbar-graphics-zoom-in.svg',
             width: 20,
             height: 20,
+            colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
           ),
           tooltip: loc.nmx_zoomIn,
           onPressed: onZoomIn,
@@ -137,6 +141,7 @@ class DocumentMainToolbar extends StatelessWidget {
             'assets/tab_toolbar/tab-toolbar-graphics-toolbar-zoom-out.svg',
             width: 20,
             height: 20,
+            colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
           ),
           tooltip: loc.nmx_zoomOut,
           onPressed: onZoomOut,
@@ -146,6 +151,7 @@ class DocumentMainToolbar extends StatelessWidget {
             'assets/tab_toolbar/tab-toolbar-graphics-reset.svg',
             width: 20,
             height: 20,
+            colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
           ),
           tooltip: loc.nmx_resetView,
           onPressed: onResetView,
@@ -155,6 +161,7 @@ class DocumentMainToolbar extends StatelessWidget {
             'assets/tab_toolbar/tab-toolbar-share-url.svg',
             width: 20,
             height: 20,
+            colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
           ),
           tooltip: 'Share document',
           onPressed: onShareUrl,
@@ -164,6 +171,7 @@ class DocumentMainToolbar extends StatelessWidget {
             'assets/tab_toolbar/tab-toolbar-pdf-download.svg',
             width: 20,
             height: 20,
+            colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
           ),
           tooltip: loc.nmx_svg_tooltip_exportPdf,
           onPressed: onExportPdf,
@@ -173,6 +181,7 @@ class DocumentMainToolbar extends StatelessWidget {
             'assets/tab_toolbar/tab-toolbar-graphics-print.svg',
             width: 20,
             height: 20,
+            colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
           ),
           tooltip: loc.nmx_printDoc,
           onPressed: onPrint,

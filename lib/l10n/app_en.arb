@@ -38,6 +38,9 @@
   "nmx_svg_tooltip_square": "Square",
   "@nmx_svg_tooltip_square": { "description": "Tooltip for square drawing tool" },
 
+  "nmx_svg_tooltip_color": "Line color",
+  "@nmx_svg_tooltip_color": { "description": "Tooltip for the drawing line color picker" },
+
   "nmx_svg_color_black": "Black",
   "@nmx_svg_color_black": { "description": "Color option: black" },
   "nmx_svg_color_red": "Red",

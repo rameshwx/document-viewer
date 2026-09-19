@@ -133,6 +133,7 @@ class PdfDocumentViewState extends ConsumerState<PdfDocumentView> {
 
   Future<void> saveDrawings() async {
     final loc = AppLocalizations.of(context)!;
+    final scheme = Theme.of(context).colorScheme;
     final repo = ref.read(drawingRepositoryProvider);
     final elements = ref.read(drawingProviderFamily(widget.paneId)).elements;
     try {
@@ -141,7 +142,7 @@ class PdfDocumentViewState extends ConsumerState<PdfDocumentView> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(loc.nmx_svg_drawingsSaved(elements.length)),
-            backgroundColor: Colors.green,
+            backgroundColor: scheme.inverseSurface,
             duration: const Duration(seconds: 2),
           ),
         );
@@ -152,7 +153,7 @@ class PdfDocumentViewState extends ConsumerState<PdfDocumentView> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(loc.nmx_svg_drawingsSaveFailed),
-            backgroundColor: Colors.red,
+            backgroundColor: scheme.error,
             duration: const Duration(seconds: 3),
           ),
         );
@@ -245,6 +246,7 @@ class PdfDocumentViewState extends ConsumerState<PdfDocumentView> {
 
   Future<void> showOutline(BuildContext context) async {
     final loc = AppLocalizations.of(context)!;
+    final scheme = Theme.of(context).colorScheme;
     if (!_controller.isReady) return;
     final outline = await _controller.useDocument((doc) => doc.loadOutline());
     if (!context.mounted) return;
@@ -267,7 +269,7 @@ class PdfDocumentViewState extends ConsumerState<PdfDocumentView> {
     await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.white,
+      backgroundColor: scheme.surface,
       builder: (ctx) {
         return SafeArea(
           child: SizedBox(
@@ -305,12 +307,13 @@ class PdfDocumentViewState extends ConsumerState<PdfDocumentView> {
 
   Future<void> showThumbnails(BuildContext context) async {
     if (!_controller.isReady) return;
+    final scheme = Theme.of(context).colorScheme;
     final doc = await _controller.useDocument((d) => d);
     if (!context.mounted || doc == null) return;
     await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.white,
+      backgroundColor: scheme.surface,
       builder: (ctx) {
         return SafeArea(
           child: SizedBox(
@@ -590,6 +593,7 @@ class PdfDocumentViewState extends ConsumerState<PdfDocumentView> {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
+    final scheme = Theme.of(context).colorScheme;
     if (_loading) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -598,7 +602,7 @@ class PdfDocumentViewState extends ConsumerState<PdfDocumentView> {
         padding: const EdgeInsets.all(16),
         child: SelectableText(
           _error ?? loc.nmx_failedLoadPdf,
-          style: const TextStyle(color: Colors.red),
+          style: TextStyle(color: scheme.error),
         ),
       );
     }
@@ -613,7 +617,7 @@ class PdfDocumentViewState extends ConsumerState<PdfDocumentView> {
       controller: _controller,
       initialPageNumber: widget.initialPageNumber,
       params: PdfViewerParams(
-        backgroundColor: Colors.grey.shade200,
+        backgroundColor: scheme.surfaceContainerHighest,
         margin: 8,
         layoutPages: _layoutPages,
         panEnabled: !drawingState.isEnabled,
@@ -621,6 +625,14 @@ class PdfDocumentViewState extends ConsumerState<PdfDocumentView> {
         textSelectionParams: PdfTextSelectionParams(
           enabled: !_handToolEnabled && !drawingState.isEnabled,
         ),
+        onKey: (_, key, __) {
+          if (drawingState.isTextMode && key == LogicalKeyboardKey.space) {
+            // Skip pdfrx's page-navigation behavior, but let the focused
+            // annotation TextField receive the space character.
+            return false;
+          }
+          return null;
+        },
         onPageChanged: (page) =>
             _reportPageChanged(page ?? widget.initialPageNumber),
         onViewerReady: (doc, controller) => _reportPageChanged(

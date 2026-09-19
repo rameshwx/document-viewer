@@ -185,6 +185,7 @@ class _DocumentViewState extends ConsumerState<DocumentView> {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
+    final scheme = Theme.of(context).colorScheme;
     final document = widget.document;
     if (document == null) {
       return Center(child: Text(loc.nmx_noDocumentSelected));
@@ -255,7 +256,7 @@ class _DocumentViewState extends ConsumerState<DocumentView> {
       children: [
         if (_toolbarOpen)
           Container(
-            color: Colors.grey.shade100,
+            color: scheme.surfaceContainer,
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -274,10 +275,7 @@ class _DocumentViewState extends ConsumerState<DocumentView> {
         if (drawingToolbar != null) drawingToolbar,
         if (_pdfToolsVisible) _buildPdfToolbar(pdfState),
         Expanded(
-          child: Theme(
-            data: ThemeData.light(),
-            child: Container(color: Colors.white, child: content),
-          ),
+          child: Container(color: scheme.surface, child: content),
         ),
       ],
     );

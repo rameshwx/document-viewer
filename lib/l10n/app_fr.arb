@@ -38,6 +38,9 @@
   "nmx_svg_tooltip_square": "Carré",
   "@nmx_svg_tooltip_square": { "description": "Infobulle pour l’outil carré" },
 
+  "nmx_svg_tooltip_color": "Couleur de ligne",
+  "@nmx_svg_tooltip_color": { "description": "Infobulle pour le sélecteur de couleur du dessin" },
+
   "nmx_svg_color_black": "Noir",
   "@nmx_svg_color_black": { "description": "Option de couleur noir" },
   "nmx_svg_color_red": "Rouge",

@@ -18,6 +18,7 @@ class SvgDrawingToolbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
+    final scheme = Theme.of(context).colorScheme;
 
     Widget toolButton({
       required IconData icon,
@@ -28,17 +29,93 @@ class SvgDrawingToolbar extends StatelessWidget {
       return Tooltip(
         message: tooltip,
         child: IconButton(
-          icon: Icon(icon, size: 20, color: Colors.white),
+          icon: Icon(icon, size: 20),
           onPressed: onPressed,
-          color: isSelected ? Colors.white24 : null,
+          style: IconButton.styleFrom(
+            foregroundColor: scheme.onSurface,
+            backgroundColor:
+                isSelected ? scheme.secondaryContainer : Colors.transparent,
+          ),
           padding: const EdgeInsets.all(8),
           constraints: const BoxConstraints(),
         ),
       );
     }
 
+    Color colorFromName(String name) {
+      switch (name) {
+        case 'red':
+          return Colors.red;
+        case 'green':
+          return Colors.green;
+        case 'yellow':
+          return Colors.yellow;
+        default:
+          return Colors.black;
+      }
+    }
+
+    String colorLabel(String name) {
+      switch (name) {
+        case 'red':
+          return loc.nmx_svg_color_red;
+        case 'green':
+          return loc.nmx_svg_color_green;
+        case 'yellow':
+          return loc.nmx_svg_color_yellow;
+        default:
+          return loc.nmx_svg_color_black;
+      }
+    }
+
+    PopupMenuEntry<String> colorOption(String name) {
+      return PopupMenuItem<String>(
+        value: name,
+        child: Row(
+          children: [
+            Container(
+              width: 16,
+              height: 16,
+              decoration: BoxDecoration(
+                color: colorFromName(name),
+                shape: BoxShape.circle,
+                border: Border.all(color: scheme.outline),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Text(colorLabel(name)),
+          ],
+        ),
+      );
+    }
+
+    Widget colorButton() {
+      return Tooltip(
+        message: loc.nmx_svg_tooltip_color,
+        child: PopupMenuButton<String>(
+          tooltip: loc.nmx_svg_tooltip_color,
+          initialValue: drawingState.selectedColor,
+          onSelected: drawingNotifier.setColor,
+          color: scheme.surfaceContainer,
+          icon: Icon(
+            Icons.palette_outlined,
+            size: 20,
+            color: colorFromName(drawingState.selectedColor),
+          ),
+          padding: const EdgeInsets.all(8),
+          constraints: const BoxConstraints(),
+          itemBuilder: (_) => [
+            colorOption('black'),
+            colorOption('red'),
+            colorOption('green'),
+            colorOption('yellow'),
+          ],
+        ),
+      );
+    }
+
     return Container(
-      color: Colors.black87,
+      color: scheme.surfaceContainer,
       height: 40,
       padding: const EdgeInsets.symmetric(horizontal: 6),
       child: Row(
@@ -63,6 +140,7 @@ class SvgDrawingToolbar extends StatelessWidget {
             onPressed: drawingNotifier.toggleTextMode,
             isSelected: drawingState.isTextMode,
           ),
+          if (drawingState.isEnabled) colorButton(),
           if (drawingState.isEnabled && !drawingState.isTextMode) ...[
             // Freehand path
             toolButton(

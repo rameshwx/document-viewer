@@ -10,17 +10,29 @@ class AeroSlateThemes {
     return ThemeData(
       useMaterial3: true,
       colorScheme: scheme,
-      scaffoldBackgroundColor: Colors.white,
-      appBarTheme: const AppBarTheme(
+      scaffoldBackgroundColor: scheme.surface,
+      appBarTheme: AppBarTheme(
         elevation: 0,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: scheme.surface,
+        foregroundColor: scheme.onSurface,
+        iconTheme: IconThemeData(color: scheme.onSurface),
       ),
       tooltipTheme:
           const TooltipThemeData(waitDuration: Duration(milliseconds: 500)),
-      dividerColor: Colors.grey.shade300,
-      iconTheme: const IconThemeData(size: 20),
+      dividerColor: scheme.outlineVariant,
+      iconTheme: IconThemeData(size: 20, color: scheme.onSurface),
+      popupMenuTheme: PopupMenuThemeData(
+        color: scheme.surfaceContainer,
+        textStyle: TextStyle(color: scheme.onSurface),
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: scheme.surface,
+        modalBackgroundColor: scheme.surface,
+      ),
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: scheme.inverseSurface,
+        contentTextStyle: TextStyle(color: scheme.onInverseSurface),
+      ),
       visualDensity: VisualDensity.adaptivePlatformDensity,
     );
   }
@@ -33,17 +45,29 @@ class AeroSlateThemes {
     return ThemeData(
       useMaterial3: true,
       colorScheme: scheme,
-      scaffoldBackgroundColor: const Color(0xFF111315),
-      appBarTheme: const AppBarTheme(
+      scaffoldBackgroundColor: scheme.surface,
+      appBarTheme: AppBarTheme(
         elevation: 0,
-        backgroundColor: Color(0xFF111315),
-        foregroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.white),
+        backgroundColor: scheme.surface,
+        foregroundColor: scheme.onSurface,
+        iconTheme: IconThemeData(color: scheme.onSurface),
       ),
       tooltipTheme:
           const TooltipThemeData(waitDuration: Duration(milliseconds: 500)),
-      dividerColor: const Color(0xFF212427),
-      iconTheme: const IconThemeData(size: 20),
+      dividerColor: scheme.outlineVariant,
+      iconTheme: IconThemeData(size: 20, color: scheme.onSurface),
+      popupMenuTheme: PopupMenuThemeData(
+        color: scheme.surfaceContainer,
+        textStyle: TextStyle(color: scheme.onSurface),
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: scheme.surface,
+        modalBackgroundColor: scheme.surface,
+      ),
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: scheme.inverseSurface,
+        contentTextStyle: TextStyle(color: scheme.onInverseSurface),
+      ),
       visualDensity: VisualDensity.adaptivePlatformDensity,
     );
   }
